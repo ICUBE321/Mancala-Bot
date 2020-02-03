@@ -86,7 +86,7 @@ public class Solution {
                 hole++;
                 index++;
         }
-        
+        //the random integer to choose which hole to pick
         hole = getRandomInteger(6,1);
         while(player1Marbles[hole] == 0){
             hole = getRandomInteger(6,1);
