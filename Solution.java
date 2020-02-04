@@ -31,6 +31,19 @@ public class Solution {
             return;
         }
         
+      //changing the starting hole for the next case
+        hole = 1;
+        index = hole - 1;  
+        //case 4
+        while(index < 6) {
+            if(player2Marbles[index] == 13) {
+                System.out.println(hole);
+                return;
+            } 
+                hole++;
+                index++;
+        }
+        
         //changing the starting hole for the next case
         hole = 2; 
         index = hole - 1;
@@ -57,11 +70,19 @@ public class Solution {
         
         hole = 1; //hole number
         index = hole - 1; //corresponding array index
-      //case win and case manc
+        //case win and case manc
         while(index < 6) {
             if(case_win(player1Marbles, index, hole)) {
-                //System.out.println(hole);
-                //return;
+            	int count = 0;
+                for(int i=index+1; i<6;i++) {
+                	if(player1Marbles[i] != 0) {
+                		count++;
+                	}
+                }
+                if(count == 0) {
+                	System.out.println(hole);
+                	return;
+                }
                 holes.add(hole);//holding the value for the hole number for prev case
                 scores.add(player1Mancala + 1);//holding the potential score if hole is picked
             } else if(case_manc(player1Marbles, index, hole)) {
@@ -86,9 +107,11 @@ public class Solution {
                 hole++;
                 index++;
         }
-        //the random integer to choose which hole to pick
+        
+        //case random 
         hole = getRandomInteger(6,1);
-        while(player1Marbles[hole] == 0){
+        index = hole - 1;
+        while(player1Marbles[hole] == 0 || index > 5 || index < 0){
             hole = getRandomInteger(6,1);
             index = hole - 1;
         }
