@@ -36,7 +36,7 @@ public class Solution {
         index = hole - 1;  
         //case 4
         while(index < 6) {
-            if(player2Marbles[index] == 13) {
+            if(player2Marbles[index] == 13 && !check_empty(player1Marbles, hole-1)) {
                 System.out.println(hole);
                 return;
             } 
@@ -57,8 +57,6 @@ public class Solution {
                     //if a hole has enough seeds to land in the target
                     if(player1Marbles[i] == target-(i+1)) {
                         hole = i + 1; //get the hole number
-                        //System.out.println(hole);
-                        //return;
                         holes.add(hole);//holding the value for the hole number for prev case
                         scores.add(player1Mancala + player1Marbles[target - 1] + player2Marbles[6 - target]);//holding the potential score if hole is picked
                     }
@@ -141,6 +139,14 @@ public class Solution {
             answ = true;
         }
         return answ;
+    }
+    
+    public static Boolean check_empty(int playerMarbles[], int index){
+    	Boolean answe = false;
+    	if(playerMarbles[index] == 0) {
+    		answe = true;
+    	}
+    	return answe;
     }
     
     public static void main(String[] args) {
