@@ -80,8 +80,10 @@ public class Solution {
         //case 3
         while(index < 6) {
             if(player1Marbles[index] == 13 && !check_empty(player1Marbles,index)) {//checks if you have 13 marbles 
-                 holes.add(hole);//holding the value for the hole number for prev case
-                 scores.add(player1Mancala);//holding the potential score if hole is picked
+            	System.out.println(hole);//select hole
+                return;//exit function
+                 //holes.add(hole);//holding the value for the hole number for prev case
+                 //scores.add(player1Mancala);//holding the potential score if hole is picked
             } 
                 hole++;//updates hole number to the next hole
                 index++;//updates index number to the next index
@@ -102,17 +104,19 @@ public class Solution {
             scores.add(player1Mancala);//holding the potential score if hole is picked
         }
         
-        int max_index = scores.indexOf(Collections.max(scores));//get the index of the max score
-        if(!check_empty(player1Marbles,max_index)) {
-        	System.out.print(holes.get(max_index));//picks the hole of that max score
-        	return;
-        }else {
-        	for(int i=0; i<6;i++) {
-        		if(!check_empty(player1Marbles,i)) {
-        			System.out.print(i+1);
-        			return;
-        		}
-        	}
+        if(!scores.isEmpty()) {//checks if no case held
+        	int max_index = scores.indexOf(Collections.max(scores));//get the index of the max score
+        	if(!check_empty(player1Marbles,max_index)) {
+            	System.out.print(holes.get(max_index));//picks the hole of that max score
+            	return;
+            }
+        } 
+        
+       	for(int i=0; i<6;i++) {//picks randomly
+       		if(!check_empty(player1Marbles,i)) {
+       			System.out.print(i+1);
+       			return;
+       		}
         }
     }
     
