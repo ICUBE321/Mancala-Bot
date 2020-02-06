@@ -29,10 +29,10 @@ public class Solution {
         index = hole - 1; //corresponding array index
         //case win and case manc
         while(index < 6) {
-            if(case_win(player1Marbles, index, hole)) {//checks if you land a mancala and get a free turn
+            if(case_win(player1Marbles, index, hole) && !check_empty(player1Marbles,index)) {//checks if you land a mancala and get a free turn
             	System.out.println(hole);//select hole
             	return;//exit function
-            } else if(case_manc(player1Marbles, index, hole)) {//checks if you can land past mancala
+            } else if(case_manc(player1Marbles, index, hole) && !check_empty(player1Marbles,index)) {//checks if you can land past mancala
                 holes.add(hole);//holding the value for the hole number for prev case
                 scores.add(player1Mancala + 1);//holding the potential score if the hole is picked
             } 
@@ -45,8 +45,8 @@ public class Solution {
         index = hole - 1;  
         //case 4
         while(index < 6) {
-            if(player2Marbles[index] == 13 && !check_empty(player1Marbles, hole-1)) {//checks if the opponent has 13 marbles and your corresponding hole is not empty
-                System.out.println(hole);//select hole
+            if(player2Marbles[index] == 13 && !check_empty(player1Marbles, (7 - hole)-1)) {//checks if the opponent has 13 marbles and your corresponding hole is not empty
+                System.out.println(7-hole);//select hole
                 return;//exit function
             } 
                 hole++;//updates hole number to the next hole
@@ -64,9 +64,8 @@ public class Solution {
                 //checking holes before the target to see if any can land in the target
                 for(int i=index-1; i>=0; i--) {
                     //if a hole has enough seeds to land in the target
-                    if(player1Marbles[i] == target-(i+1)) {
-                        hole = i + 1; //get the hole number
-                        holes.add(hole);//holding the value for the hole number for prev case
+                    if(player1Marbles[i] == target-(i+1) && !check_empty(player1Marbles,i)) {
+                        holes.add(i+1);//holding the value for the hole number for prev case
                         scores.add(player1Mancala + player1Marbles[target - 1] + player2Marbles[6 - target]);//holding the potential score if hole is picked
                     }
                 }
@@ -80,11 +79,9 @@ public class Solution {
         index = hole - 1;  
         //case 3
         while(index < 6) {
-            if(player1Marbles[index] == 13) {//checks if you have 13 marbles 
-                //System.out.println(hole);
-                //return;
+            if(player1Marbles[index] == 13 && !check_empty(player1Marbles,index)) {//checks if you have 13 marbles 
                  holes.add(hole);//holding the value for the hole number for prev case
-                 scores.add(player1Mancala + player1Marbles[hole - 1] + player2Marbles[6 - hole]);//holding the potential score if hole is picked
+                 scores.add(player1Mancala);//holding the potential score if hole is picked
             } 
                 hole++;//updates hole number to the next hole
                 index++;//updates index number to the next index
@@ -97,16 +94,26 @@ public class Solution {
             hole = getRandomInteger(6,1);
             index = hole - 1;
         }
-        if(case_manc(player1Marbles, index, hole)) {//checks if you can land past mancala
+        if(case_manc(player1Marbles, index, hole) && !check_empty(player1Marbles,index)) {//checks if you can land past mancala
             holes.add(hole);//holding the value for the hole number for prev case
             scores.add(player1Mancala + 1);//holding the potential score if hole is picked
-        } else {
+        } else if(!check_empty(player1Marbles,index)){
             holes.add(hole);//holding the value for the hole number for prev case
             scores.add(player1Mancala);//holding the potential score if hole is picked
         }
         
         int max_index = scores.indexOf(Collections.max(scores));//get the index of the max score
-        System.out.print(holes.get(max_index));//picks the hole of that max score
+        if(!check_empty(player1Marbles,max_index)) {
+        	System.out.print(holes.get(max_index));//picks the hole of that max score
+        	return;
+        }else {
+        	for(int i=0; i<6;i++) {
+        		if(!check_empty(player1Marbles,i)) {
+        			System.out.print(i+1);
+        			return;
+        		}
+        	}
+        }
     }
     
     //function to check if you land a mancala and get a free turn
