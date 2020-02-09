@@ -29,7 +29,7 @@ package man;
 
 1
 0
-0 1 1 1 1 0
+1 0 0 0 0 0
 0
 4 4 4 4 4 4
 
@@ -88,17 +88,29 @@ public class Solution {
                 }
                 
             }
-             
-            //if(StealMarbles(yours,opp,i) == true){
-                
-            //}
+            
+            if(StealMarbles(yours,opp,i) == true){
+               int k = i;
+               //System.out.println(k + "      " + i);
+               while(k <= i && k > 0){
+                   k--;  
+                   if(yours[k] == i-k){
+                       //System.out.println("Stolen from hole: " + k + " Into hole: " + i);  
+                       scores[k] = scores[i] + 4;
+                   }
+               }
+            }
            
         }  
             
         for (int i = 0; i < scores.length; i++) {            
                 max = scores[i] > scores[max] ? i : max; //Determines the index of the max element in the array           
             }
-        
+       
+        //for(int i = 0; i <5; i++){
+            //System.out.println(scores[i]);
+       // }
+
         System.out.println(max+1);
         return;
 
